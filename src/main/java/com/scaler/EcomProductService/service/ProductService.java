@@ -1,8 +1,12 @@
 package com.scaler.EcomProductService.service;
 
-import com.scaler.EcomProductService.dto.productResponseDTO;
+import com.scaler.EcomProductService.dto.ProductListResponseDTO;
+import com.scaler.EcomProductService.dto.ProductRequestDTO;
+import com.scaler.EcomProductService.dto.ProductResponseDTO;
 
 public interface ProductService {
 
-    productResponseDTO getProductById(int id);
+    ProductResponseDTO getProductById(int id);
+    ProductListResponseDTO GetAllProducts();
+    ProductResponseDTO createProduct(ProductRequestDTO productRequestDTO);
 }

@@ -1,27 +1,51 @@
 package com.scaler.EcomProductService.controller;
 
-import com.scaler.EcomProductService.dto.productResponseDTO;
+import com.scaler.EcomProductService.dto.ProductListResponseDTO;
+import com.scaler.EcomProductService.dto.ProductRequestDTO;
+import com.scaler.EcomProductService.dto.ProductResponseDTO;
 import com.scaler.EcomProductService.service.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class productController {
 
+/* // field injection
   @Autowired
   @Qualifier("fakeStoreProductService")
     private ProductService productService;
 
+ */
+
+  private final ProductService productService;
+
+  public productController(@Qualifier("fakeStoreProductService") ProductService productService) {
+    this.productService = productService;
+  }
+
   @GetMapping("/products/{id}")
   public ResponseEntity getProductFromId(@PathVariable("id") int id)
   {
-    productResponseDTO response=productService.getProductById(id);
+    ProductResponseDTO response=productService.getProductById(id);
     return ResponseEntity.ok(response);
   }
+
+  @GetMapping("/products")
+    public ResponseEntity GetAllProducts()
+  {
+    ProductListResponseDTO response=productService.GetAllProducts();
+
+    return ResponseEntity.ok(response);
+  }
+
+  @PostMapping("/products")
+  public ResponseEntity createProduct(@RequestBody ProductRequestDTO productRequestDTO)
+  {
+    ProductResponseDTO productResponse = productService.createProduct(productRequestDTO);
+    return ResponseEntity.ok(productResponse);
+  }
+
 
   /*  public ResponseEntity getAllProducts()
   {

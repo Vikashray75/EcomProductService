@@ -1,6 +1,8 @@
 package com.scaler.EcomProductService.service;
 
-import com.scaler.EcomProductService.dto.productResponseDTO;
+import com.scaler.EcomProductService.dto.ProductListResponseDTO;
+import com.scaler.EcomProductService.dto.ProductRequestDTO;
+import com.scaler.EcomProductService.dto.ProductResponseDTO;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -17,11 +19,38 @@ public class FakeStoreProductService implements ProductService {
 
 
     @Override
-    public productResponseDTO getProductById(int id) {
+    public ProductResponseDTO getProductById(int id) {
         String getAllProductURL="https://fakestoreapi.com/products/" +id;
         RestTemplate restTemplate=restTemplateBuilder.build();
-        ResponseEntity<productResponseDTO> productResponse=restTemplate.getForEntity(getAllProductURL, productResponseDTO.class);
+        ResponseEntity<ProductResponseDTO> productResponse=restTemplate.getForEntity(getAllProductURL, ProductResponseDTO.class);
         return productResponse.getBody();
         //return null;
     }
+
+    @Override
+    public ProductListResponseDTO GetAllProducts() {
+        String getAllProductUrl="https://fakestoreapi.com/products";
+        RestTemplate restTemplate =restTemplateBuilder.build();
+        ResponseEntity<ProductResponseDTO[]> ProductResponseArray =restTemplate.getForEntity(getAllProductUrl, ProductResponseDTO[].class);
+        ProductListResponseDTO responseListDTO =new ProductListResponseDTO();
+        for(ProductResponseDTO productResponseDTOs :ProductResponseArray.getBody())
+        {
+          responseListDTO.getProducts().add(productResponseDTOs);
+        }
+
+        return responseListDTO;
+
+
+       // return null;
+    }
+
+    @Override
+    public ProductResponseDTO createProduct(ProductRequestDTO productRequestDTO) {
+        String createProductUrl="https://fakestoreapi.com/products";
+        RestTemplate restTemplate=restTemplateBuilder.build();
+        ResponseEntity<ProductResponseDTO> productResponse=restTemplate.postForEntity(createProductUrl,productRequestDTO, ProductResponseDTO.class);
+        return productResponse.getBody();
+    }
+
+
 }
