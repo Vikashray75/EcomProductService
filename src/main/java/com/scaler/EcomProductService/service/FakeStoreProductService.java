@@ -52,5 +52,13 @@ public class FakeStoreProductService implements ProductService {
         return productResponse.getBody();
     }
 
+    @Override
+    public boolean deleteProduct(int id) {
+        String deleteProductURL="https://fakestoreapi.com/products/" +id;
+        RestTemplate restTemplate=restTemplateBuilder.build();
+        restTemplate.delete(deleteProductURL);
+        return true;
+    }
+
 
 }

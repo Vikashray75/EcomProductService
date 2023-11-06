@@ -9,4 +9,5 @@ public interface ProductService {
     ProductResponseDTO getProductById(int id);
     ProductListResponseDTO GetAllProducts();
     ProductResponseDTO createProduct(ProductRequestDTO productRequestDTO);
+    boolean deleteProduct(int id);
 }
