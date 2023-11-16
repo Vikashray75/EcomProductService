@@ -1,5 +1,6 @@
 package com.scaler.EcomProductService.controller;
 
+import com.scaler.EcomProductService.Exception.ProductNotFoundException;
 import com.scaler.EcomProductService.dto.ProductListResponseDTO;
 import com.scaler.EcomProductService.dto.ProductRequestDTO;
 import com.scaler.EcomProductService.dto.ProductResponseDTO;
@@ -25,7 +26,7 @@ public class productController {
   }
 
   @GetMapping("/products/{id}")
-  public ResponseEntity getProductFromId(@PathVariable("id") int id)
+  public ResponseEntity getProductFromId(@PathVariable("id") int id) throws ProductNotFoundException
   {
     ProductResponseDTO response=productService.getProductById(id);
     return ResponseEntity.ok(response);
